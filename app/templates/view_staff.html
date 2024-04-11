@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Staff</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+
+
+</head>
+<body class="bg-image" style="background-image: url('/static/ocean2.jpg');background-size: cover; background-repeat: no-repeat; background-position: center center;">
+
+    <!-- Navbar -->
+
+    <nav class="navbar bg-dark navbar-dark p-3 nabar-expand-lg" style="color: #fff; padding: 10px;">
+
+        <div class="container">
+
+            <a href="{{ url_for('home') }}" class="navbar-brand">Home</a>
+
+            <h5 style="color: #fff; padding: 10px;"> Please Help Us Protect Our Beautiful Ocean </h5>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+
+              
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a href="{{ url_for('guide') }}" class="nav-link">Guide</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('sources') }}" class="nav-link">Sources</a>
+                    </li>
+                   
+                    {% if 'email' in session %}
+                    <li class="nav-item">
+                        <a href="{{ url_for('dashboard') }}" class="nav-link">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('logout') }}" class="nav-link">Log out</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a href="{{ url_for('login') }}" class="nav-link">Login</a>
+                    </li>
+                    {% endif %}
+
+                    <li class="nav-item">
+                        <a href="{{ url_for('register') }}" class="nav-link">New Member Registration</a>
+                    </li>
+
+
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- table -->
+
+    <br>
+    <div class="container">
+        <hr class="border border-dark border-1 opacity-50">
+        <h2 class="text-center"> List of Staff Users </h2>
+        
+        <hr class="border border-dark border-1 opacity-50"> 
+
+
+
+
+   <br>
+   <br>
+    <table class="table table-primary table-striped table-hover table-bordered border border-secondary text-center">
+           
+
+        <!-- Table Headings -->
+
+            <thead class="table-dark">
+                <tr>
+                    
+                    <th class="fs-5 px-4 py-2 text-center align-middle">Staff Number</th>
+                    <th class="fs-5 px-4 py-2 text-center align-middle">first Name</th>
+                    <th class="fs-5 px-4 py-2 text-center align-middle">Last Name</th>      
+                    <th class="fs-5 px-4 py-2 text-center align-middle">Email</th>
+                    <th class="fs-5 px-4 py-2 text-center align-middle">Work Phone Number</th>
+                    <th class="fs-5 px-4 py-2 text-center align-middle">Hire Date</th>
+                    <th class="fs-5 px-4 py-2 text-center align-middle">Position</th>              
+                    <th class="fs-5 px-4 py-2 text-center align-middle">Department</th>                
+                    <th class="fs-5 px-4 py-2 text-center align-middle">Status</th>
+                </tr>
+            </thead>
+
+        <!-- Table Body -->
+
+            <tbody class="table-group-divider">
+                {% for row in staff %}
+                <tr>
+                    
+                    <td class="px-4 py-2" style="vertical-align: middle;">{{ row[0] }}</td>
+                    <td class="px-4 py-2" style="vertical-align: middle;">{{ row[1] }}</td>
+                    <td class="px-4 py-2" style="vertical-align: middle;">{{ row[2] }}</td>
+                    <td class="px-4 py-2" style="vertical-align: middle;">{{ row[3] }}</td>
+                    <td class="px-4 py-2" style="vertical-align: middle;">{{ row[4] }}</td>
+                    <td class="px-4 py-2" style="vertical-align: middle;">{{ row[5] }}</td>
+                    <td class="px-4 py-2" style="vertical-align: middle;">{{ row[6] }}</td>
+                    <td class="px-4 py-2" style="vertical-align: middle;">{{ row[7] }}</td>
+                    <td class="px-4 py-2" style="vertical-align: middle;">{{ row[8] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>      
+    </div>
+        
+
+
+
+
+
+
+
+
+        {% if session['usergroup'] == 'admin' %}
+
+        <div class="container text-center">
+            <div class="row">
+                <div class="col">
+
+                <!-- ADD -->
+                <div class="col-12 mb-3">
+                    <a href="/add_staff" class="btn btn-primary">Add a new Staff user</a>
+                </div>
+                <!-- DELETE -->
+                <div class="col-12 mb-3">
+                    <a href="/delete_staff" class="btn btn-danger">Delete an existing Staff user</a>
+                </div>
+            </div>
+        </div>
+    </div>
+                <!-- UPDATE -->
+                <div class="container text-center">
+                
+                
+                    <form action="/update_staff" method="post" class="row justify-content-center">
+                        <div class="col-auto">
+                    
+                            <select id="staff_number" name="staff_number" class="form-select"  style="max-width: 300px;" required>
+                                <option value="" selected>Selete A Staff User to Update</option>
+                                <!-- looping through all staff_numbers displaying to user -->
+                                {% for staff_number, first_name, last_name in staff_numbers %}
+                                    <option value="{{ staff_number }}">{{ staff_number }} - {{ first_name }} {{ last_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-auto">
+                            <input type="submit" value="Select" class="btn btn-success">
+                        </div>
+                    </form>
+                </div>
+
+        
+        {% endif %}
+
+
+
+                
+
+        <!-- footer -->
+
+        <footer class="p-4 border-top  mt-5">
+            <div class="container align-items-center justify-content-between d-flex">
+                <p class="mb-0 text-muted">
+                    Feb 2024
+                </p>
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a href="" class="nav-link text-muted">Bonnie Xu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="" class="nav-link text-muted">1156270</a>
+                    </li>
+                </ul>
+            </div>
+        </footer>
+
+
+
+
+
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    </body>
+</html>

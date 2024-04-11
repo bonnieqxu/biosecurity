@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Add Staff</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+
+
+</head>
+
+<body class="bg-image" style="background-image: url('/static/ocean2.jpg');background-size: cover; background-repeat: no-repeat; background-position: center center;">
+
+   <!-- Navbar -->
+
+   <nav class="navbar bg-dark navbar-dark p-3 nabar-expand-lg" style="color: #fff; padding: 10px;">
+
+    <div class="container">
+
+        <a href="{{ url_for('home') }}" class="navbar-brand">Home</a>
+
+        <h5 style="color: #fff; padding: 10px;"> Please Help Us Protect Our Beautiful Ocean </h5>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a href="{{ url_for('guide') }}" class="nav-link">Guide</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url_for('sources') }}" class="nav-link">Sources</a>
+                </li>
+               
+                {% if 'email' in session %}
+                <li class="nav-item">
+                    <a href="{{ url_for('dashboard') }}" class="nav-link">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url_for('logout') }}" class="nav-link">Log out</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a href="{{ url_for('login') }}" class="nav-link">Login</a>
+                </li>
+                {% endif %}
+
+                <li class="nav-item">
+                    <a href="{{ url_for('register') }}" class="nav-link">New Member Registration</a>
+                </li>
+
+
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+    <!-- form -->
+    <div class="container" style="max-width: 900px;">
+
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+                
+                <div  class="row mx-auto" style="max-width: 100%;">
+                    
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h1 class="h4 text-gray-900 mb-4">Add A New Staff User</h1>
+                                
+                            </div>
+
+                            <hr>
+
+
+        
+                            <form class="user" action="/add_staff" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+                                <div class="form-group">
+                                    
+                                    <label for="first_name"  style="margin-bottom: 10px;">First Name (Only letters allowed):</label>
+                                    <input type="text" class="form-control form-control-user" id="first_name" name="first_name" pattern="[A-Za-z][A-Za-z\s]*" required>
+                                </div>
+
+                                    <br>
+                                <div class="form-group">
+                                    <label for="last_name"  style="margin-bottom: 10px;">Last Name (Only letters allowed):</label>
+                                    <input type="text" class="form-control form-control-user" id="last_name" name="last_name" pattern="[A-Za-z][A-Za-z\s]*" required>
+                                </div>
+                                    
+
+                                    <br>
+                                
+                                    
+                                    
+                               
+
+
+                                <div class="form-group">
+                                    <label for="email" style="margin-bottom: 10px;">Email (This will be their Username):</label>
+                                    <input type="email" class="form-control form-control-user" id="email" name="email"  required><br>
+                                    <div id="emailAvailabilityMessage" style="display: none;"></div> <br><br>
+                                </div>
+
+                                <!-- check email availability -->
+
+                                <script>
+                                    document.getElementById("email").addEventListener("blur", function() {
+                                        var email = this.value;
+                                        var xhr = new XMLHttpRequest();
+                                        xhr.open("POST", "/check_email_availability", true);
+                                        xhr.setRequestHeader("Content-Type", "application/json");
+                                        xhr.onreadystatechange = function() {
+                                            if (xhr.readyState === XMLHttpRequest.DONE) {
+                                                var response = JSON.parse(xhr.responseText);
+                                                var messageElement = document.getElementById("emailAvailabilityMessage");
+                                                if (response.available) {
+                                                    messageElement.textContent = "This email address is available.";
+                                                    messageElement.style.color = "green";
+                                                } else {
+                                                    messageElement.textContent = "This email address has been taken.";
+                                                    messageElement.style.color = "red";
+                                                }
+                                                messageElement.style.display = "block"; // Show the message
+                                            }
+                                        };
+                                        xhr.send(JSON.stringify({ email: email }));
+                                    });
+                                </script>
+
+                                    <br>
+                                <div class="form-group">
+                                    <label for="work_phone"  style="margin-bottom: 10px;">Work Phone Number (Only numbers allowed):</label>
+                                    <input type="tel" class="form-control form-control-user" id="work_phone" name="work_phone" pattern="[0-9][0-9\s]*" required>
+                                </div>
+
+                                    <br>
+                                <div class="form-group">
+                                    <label for="position"  style="margin-bottom: 10px;">Position:</label>
+                                    <input type="text" class="form-control form-control-user" id="position" name="position" pattern="[A-Za-z][A-Za-z\s]*" required>
+                                </div>
+
+                                    <br>
+                                <div class="form-group">
+                                    <label for="department"  style="margin-bottom: 10px;">Department:</label>
+                                    <input type="text" class="form-control form-control-user" id="department" name="department" pattern="[A-Za-z][A-Za-z\s]*" required>
+                                </div>
+
+
+                                <br>
+                                <div class="form-group">
+                                    <label for="status"  style="margin-bottom: 10px;">Status:</label>
+                                    <select id="status" name="status" class="form-control form-control-user" required>
+                                        <option value="active">Active</option>
+                                        <option value="inactive">Inactive</option>
+                                    </select>
+                                </div>
+
+                                <br>
+                                <div class="form-group">
+                                    <label for="password" style="margin-bottom: 10px;">Password (At least 8 characters long with BOTH numbers and letters):</label>
+                                    <input type="password" class="form-control form-control-user" id="password" name="password" pattern="^(?=.*\d)(?=.*[a-zA-Z]).{8,}$" required>
+                                </div>
+
+                                <br>
+                                <button type="submit" class="btn btn-primary btn-user d-block mx-auto btn-block">
+                                    Submit
+                                </button>
+                                <br>
+                                <button type="button" class="btn btn-danger btn-user d-block mx-auto btn-block" onclick="window.location.href='/dashboard'">Cancel</button>
+
+
+                            </form>
+
+
+                            <!-- check email availability when submitting --> 
+
+                            <script>
+                                function validateForm() {
+                                    var email = document.getElementById("email").value;
+                                    var xhr = new XMLHttpRequest();
+                                    xhr.open("POST", "/check_email_availability", false);
+                                    xhr.setRequestHeader("Content-Type", "application/json");
+                                    xhr.send(JSON.stringify({ email: email }));
+                                    var response = JSON.parse(xhr.responseText);
+                                    if (!response.available) {
+                                        var messageElement = document.getElementById("emailAvailabilityMessage");
+                                        messageElement.textContent = "This email address has been taken.";
+                                        messageElement.style.color = "red";
+                                        return false; // Prevent form submission
+                                    }
+                                    return true; // Allow form submission
+                                }
+                            </script>
+
+                            <br>
+
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+        <!-- footer -->
+
+        <footer class="p-4 border-top">
+            <div class="container align-items-center justify-content-between d-flex">
+                <p class="mb-0 text-muted">
+                    Feb 2024
+                </p>
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a href="" class="nav-link text-muted">Bonnie Xu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="" class="nav-link text-muted">1156270</a>
+                    </li>
+                </ul>
+            </div>
+        </footer>
+
+
+
+
+
+
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    </body>
+</html>
+
+
+
+
+
+      

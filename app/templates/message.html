@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>{% block title %}Message{% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!--Auto refresh and redirect to Home-->
+        <meta http-equiv="refresh" content="3;url=/">
+        
+        <!-- Bootstrap CSS link -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+      </head>
+
+    <body>
+      <!-- Navbar -->
+
+    <nav class="navbar bg-dark navbar-dark p-3 nabar-expand-lg" style="color: #fff; padding: 10px;">
+
+        <div class="container">
+
+            <a href="{{ url_for('home') }}" class="navbar-brand">Home</a>
+
+            <h5 style="color: #fff; padding: 10px;"> Please Help Us Protect Our Beautiful Ocean </h5>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+
+              
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a href="{{ url_for('guide') }}" class="nav-link">Guide</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('sources') }}" class="nav-link">Sources</a>
+                    </li>
+                   
+                    {% if 'email' in session %}
+                    <li class="nav-item">
+                        <a href="{{ url_for('dashboard') }}" class="nav-link">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('logout') }}" class="nav-link">Log out</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a href="{{ url_for('login') }}" class="nav-link">Login</a>
+                    </li>
+                    {% endif %}
+
+                    <li class="nav-item">
+                        <a href="{{ url_for('register') }}" class="nav-link">New Member Registration</a>
+                    </li>
+
+
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+  <body>
+
+      <div class="container-fluid">
+          <div class="row justify-content-center align-items-center" style="height: 50vh;">
+              <section class="tm-section-intro">
+                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                      <div class="tm-wrapper-center text-center">
+                          <h1 class="tm-section-intro-title">{{ message }}</h1>
+                          <br>
+                          <p class="tm-section-intro-text">Redirecting back to Home Page...</p>
+                          <p class="tm-section-intro-text">In 3 seconds...</p>
+                      </div>
+                  </div>
+              </section>
+          </div>
+      </div>
+
+
+      <!-- footer -->
+
+        <footer class="p-4 border-top">
+            <div class="container align-items-center justify-content-between d-flex">
+                <p class="mb-0 text-muted">
+                    Feb 2024
+                </p>
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a href="" class="nav-link text-muted">Bonnie Xu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="" class="nav-link text-muted">1156270</a>
+                    </li>
+                </ul>
+            </div>
+        </footer>
+
+
+
+
+
+
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    </body>
+</html>
